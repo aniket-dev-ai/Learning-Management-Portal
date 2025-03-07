@@ -1,10 +1,13 @@
-import { Button } from "./components/ui/button";
+import React from 'react'
+import AuthPage from './Page/AuthPage'
 
-export default function App() {
+function App() {
   return (
-    <h1 className="text-3xl font-bold underline">
-      Hello world!
-      <Button className="bg-blue-500 text-white">Hello Shadcn! 😍</Button>
-    </h1>
-  );
+    <div>
+
+      <AuthPage/>
+    </div>
+  )
 }
+
+export default App
