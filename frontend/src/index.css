@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+.glow-text {
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(138, 43, 226, 0.8);
+}
+
+.cosmic-card {
+  box-shadow: 0 0 15px rgba(173, 216, 230, 0.3), 0 0 30px rgba(147, 112, 219, 0.5);
+}
+
+
 @layer base {
   :root {
     --background: 0 0% 100%;

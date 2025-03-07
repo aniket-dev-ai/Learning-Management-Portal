@@ -14,8 +14,6 @@ export const registerUser = async (req, res) => {
       });
     }
 
- 
-
     // Email format check (basic regex) - industry mein regex libraries bhi use hoti hain, par yeh kaam chalau hai
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
@@ -79,7 +77,7 @@ export const registerUser = async (req, res) => {
     });
   }
 };
- 
+
 import jwt from "jsonwebtoken";
 
 export const loginUser = async (req, res) => {
@@ -121,23 +119,22 @@ export const loginUser = async (req, res) => {
     // Set Cookie with token (httpOnly for better security)
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",  // In dev, it'll work without https
+      secure: process.env.NODE_ENV === "production", // In dev, it'll work without https
       sameSite: "strict", // Prevent CSRF
       maxAge: 24 * 60 * 60 * 1000, // 1 day
     });
 
     res.status(200).json({
       success: true,
-      message: "Login successful! 🥳",
+      message: "Login successful! 🥳"+`Welcome back ${user.name} `,
       user: {
         id: user._id,
         name: user.name,
         email: user.email,
         role: user.role,
       },
-      token
+      token,
     });
-
   } catch (error) {
     console.error("Login Error:", error.message);
     res.status(500).json({
@@ -149,9 +146,86 @@ export const loginUser = async (req, res) => {
 };
 
 export const logout = (req, res) => {
-    res.clearCookie("token");
+  res.clearCookie("token");
+  res.status(200).json({
+    success: true,
+    message: "Logout successful! Bye Bye 👋",
+  });
+};
+
+export const editProfile = async (req, res) => {
+  try {
+    const userId = req.userId; // This should ideally come from an auth middleware (JWT decode se)
+    const { name, email, role } = req.body;
+
+    if (!name && !email && !role) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide at least one field to update!",
+      });
+    }
+
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found!",
+      });
+    }
+
+    if (name) user.name = name;
+    if (email) user.email = email;
+    if (role) user.role = role;
+
+    await user.save();
+
     res.status(200).json({
       success: true,
-      message: "Logout successful! Bye Bye 👋",
+      message: "Profile updated successfully! ✨",
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+    });
+  } catch (error) {
+    console.error("Profile Update Error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Failed to update profile 😔",
+      error: error.message,
     });
   }
+};
+ 
+
+export const showProfile = async (req, res) => {
+  try {
+    const userId = req.userId;  // Again, ideally from auth middleware (JWT decode se)
+
+    const user = await User.findById(userId).select("-password");
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found! 😥",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "Profile fetched successfully! 😎",
+      user,
+    });
+
+  } catch (error) {
+    console.error("Profile Fetch Error:", error.message);
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch profile 😵‍💫",
+      error: error.message,
+    });
+  }
+};
