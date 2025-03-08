@@ -2,13 +2,13 @@ import { toast } from "sonner";
 import { useRegisterUserMutation } from "../feature/api/authApi";
 import { useEffect, useState } from "react";
 
-const SignupForm = () => {
+const SignupForm = (props) => {
+  const { user, setuser } = props;
   const [role, setRole] = useState("student");
 
   const [name, setname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [profileImage, setProfileImage] = useState(null);
   const [
     registerUser,
     {
@@ -22,21 +22,21 @@ const SignupForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     // Handle form submission logic here
-    console.log({ email, password, profileImage, role });
+    console.log({ email, password, role });
     const action = registerUser;
     await action({
       email,
       password,
-      profileImage,
       role,
       name,
     });
+    setuser(true);
   };
   useEffect(() => {
-    if(registerdata && registernissucces){
+    if (registerdata && registernissucces) {
       toast.success(registerdata.message);
     }
-    if(registererror){
+    if (registererror) {
       toast.error(registererror.data.message);
     }
   }, [registerdata, registererror, registerIsLoading]);
@@ -70,14 +70,7 @@ const SignupForm = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
       </div>
-      <div>
-        <label className="block mb-1">Profile Image</label>
-        <input
-          type="file"
-          className="w-full p-2 rounded bg-darkBg border border-gray-600"
-          onChange={(e) => setProfileImage(e.target.files[0])}
-        />
-      </div>
+
       <div className="flex space-x-4">
         <label className="flex items-center space-x-2">
           <input
@@ -101,18 +94,11 @@ const SignupForm = () => {
         </label>
       </div>
       <button
-      disabled={registerIsLoading}
-
+        disabled={registerIsLoading}
         type="submit"
         className="w-full bg-primary text-white py-2 rounded"
       >
-        {registerIsLoading ? (
-          <span>
-            ...loading
-          </span>
-        ) : (
-          <span>Signup</span>
-        )}
+        {registerIsLoading ? <span>...loading</span> : <span>Signup</span>}
       </button>
     </form>
   );

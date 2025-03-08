@@ -41,10 +41,11 @@ export const authApi = createApi({
       }),
     }),
     editProfile: builder.mutation({
-      query: (userData) => ({
-        url: "/edit",
+      query: (formdata) => ({
+        url: "/profile/update",
         method: "PUT",
-        body: userData,
+        body: formdata,
+        credentials: "include",
       }),
     }),
     showProfile: builder.query({

@@ -3,7 +3,8 @@ import AuthToggle from "../components/ui/AUthToggle";
 import LoginForm from "../Form/LoginForm";
 import SignupForm from "../Form/SignUpForm";
 
-const AuthPage = () => {
+const AuthPage = (props) => {
+  const { user, setuser } = props;
   const [isLogin, setIsLogin] = useState(true);
 
   return (
@@ -13,7 +14,7 @@ const AuthPage = () => {
           {isLogin ? "Login" : "Signup"}
         </h2>
         <AuthToggle setIsLogin={setIsLogin} />
-        {isLogin ? <LoginForm /> : <SignupForm />}
+        {isLogin ? <LoginForm user={user} setuser={setuser} /> : <SignupForm user={user} setuser={setuser} />}
       </div>
     </div>
   );

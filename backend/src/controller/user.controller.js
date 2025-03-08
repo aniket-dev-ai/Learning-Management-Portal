@@ -78,7 +78,7 @@ export const registerUser = async (req, res) => {
   }
 };
 
-import jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken"; 
 
 export const loginUser = async (req, res) => {
   try {
@@ -126,7 +126,7 @@ export const loginUser = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: "Login successful! 🥳"+`Welcome back ${user.name} `,
+      message: "Login successful! 🥳" + `Welcome back ${user.name} `,
       user: {
         id: user._id,
         name: user.name,
@@ -151,32 +151,32 @@ export const logout = (req, res) => {
     success: true,
     message: "Logout successful! Bye Bye 👋",
   });
-};
+}; 
+import { uploadmedia ,deleteMedia} from "../Middleware/Cloudinary.js";
 
 export const editProfile = async (req, res) => {
   try {
-    const userId = req.userId; // This should ideally come from an auth middleware (JWT decode se)
-    const { name, email, role } = req.body;
+    const userId = req.userId; // 🛠️ Extracted from JWT middleware
+    const { name } = req.body;
+    const profileImage = req.file; // 🛠️ Multer ka file
 
-    if (!name && !email && !role) {
-      return res.status(400).json({
-        success: false,
-        message: "Please provide at least one field to update!",
-      });
-    }
-
+    // ✅ Fetch user
     const user = await User.findById(userId);
-
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found!",
-      });
-    }
+    if (!user) return res.status(404).json({ success: false, message: "User not found!" });
 
     if (name) user.name = name;
-    if (email) user.email = email;
-    if (role) user.role = role;
+
+    let cloudinaryResponse = null;
+
+    if (profileImage) {
+      if (user.imageUrl) {
+        const publicId = user.imageUrl.split("/").pop().split(".")[0]; 
+        await deleteMedia(publicId);  
+      }
+    }
+    console.log(cloudinaryResponse)
+    cloudinaryResponse = await uploadmedia(profileImage.path);
+    user.imageUrl = cloudinaryResponse.secure_url;
 
     await user.save();
 
@@ -188,22 +188,20 @@ export const editProfile = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
+        imageUrl: user.imageUrl,
       },
+      cloudinaryResponse,
     });
   } catch (error) {
     console.error("Profile Update Error:", error.message);
-    res.status(500).json({
-      success: false,
-      message: "Failed to update profile 😔",
-      error: error.message,
-    });
+    res.status(500).json({ success: false, message: "Failed to update profile 😔", error: error.message });
   }
 };
- 
+
 
 export const showProfile = async (req, res) => {
   try {
-    const userId = req.userId;  // Again, ideally from auth middleware (JWT decode se)
+    const userId = req.userId; // Again, ideally from auth middleware (JWT decode se)
 
     const user = await User.findById(userId).select("-password");
 
@@ -219,7 +217,6 @@ export const showProfile = async (req, res) => {
       message: "Profile fetched successfully! 😎",
       user,
     });
-
   } catch (error) {
     console.error("Profile Fetch Error:", error.message);
     res.status(500).json({

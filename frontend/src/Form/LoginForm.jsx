@@ -4,7 +4,8 @@ import React, { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
 
-const LoginForm = () => {
+const LoginForm = (props) => {
+  const { user, setuser } = props;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [
@@ -34,6 +35,7 @@ const LoginForm = () => {
       email,
       password,
     });
+    setuser(true);
     navigate("/");
   };
   useEffect(() => {

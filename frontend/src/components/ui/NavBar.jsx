@@ -1,14 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { cn } from "../../lib/utils";
 import { Button } from "./button"; // assuming you are using shadcn buttons
 import { Link } from "react-router-dom";
+import {  useLogoutUserMutation } from "../../feature/api/authApi";
+import { toast } from "sonner";
 // import profileImage from "https://i.pinimg.com/736x/5d/02/f7/5d02f7a385be2e52c836bd25192029dd.jpg";
 
-const NavBar = () => {
+const NavBar = (props) => {
+  const { user, setuser } = props;
   const [isOpen, setIsOpen] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const user = true;
+
+
+  const [logoutUser, { data, isSuccess }] = useLogoutUserMutation();
+
+  const handleLogout = async () => {
+    try {
+      await logoutUser(); 
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  }
+  useEffect(() => {
+    if (isSuccess) {
+      props.setuser(false);
+      localStorage.removeItem("user");
+      toast.success("Logout successful");
+    }
+  }, [isSuccess]);
 
   return (
     <header className="bg-darkBg text-darkText shadow-lg">
@@ -56,7 +76,7 @@ const NavBar = () => {
                     My Learning
                   </li>
                   </Link>
-                  <li className="px-4 py-2 text-red-400 hover:bg-gray-100 cursor-pointer">
+                  <li onClick={handleLogout} className="px-4 py-2 text-red-400 hover:bg-gray-100 cursor-pointer">
                     Log Out
                   </li>
                   <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
