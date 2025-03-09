@@ -4,7 +4,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { userLoggedOut } from "../../feature/authSlice";
 import { Button } from "./button";
 import { Link } from "react-router-dom";
-import { useLogoutUserMutation, useShowProfileQuery } from "../../feature/api/authApi";
+import {
+  useLogoutUserMutation,
+  useShowProfileQuery,
+} from "../../feature/api/authApi";
 import { toast } from "sonner";
 
 const NavBar = () => {
@@ -17,7 +20,11 @@ const NavBar = () => {
   const user = useSelector((state) => state.auth.user);
 
   // Fetch user profile only if authenticated
-  const { data: userData, error, isLoading } = useShowProfileQuery(undefined, { skip: !isAuthenticated });
+  const {
+    data: userData,
+    error,
+    isLoading,
+  } = useShowProfileQuery(undefined, { skip: !isAuthenticated });
   const [logoutUser, { isSuccess }] = useLogoutUserMutation();
 
   useEffect(() => {
@@ -58,7 +65,11 @@ const NavBar = () => {
         <nav className="hidden md:flex space-x-6">
           <Button variant="ghost">Home</Button>
           <Button variant="ghost">Courses</Button>
-          {userData?.user?.role === "instructor" && <Button variant="ghost">Dashboard</Button>}
+          {userData?.user?.role === "instructor" && (
+            <Link to="/admin/dashboard">
+              <Button variant="ghost">Dashboard</Button>
+            </Link>
+          )}
         </nav>
 
         {/* Profile Section */}
@@ -73,11 +84,28 @@ const NavBar = () => {
             {dropdownOpen && (
               <div className="absolute right-0 mt-2 w-48 bg-white border rounded-md shadow-lg z-50">
                 <ul className="py-1 text-gray-700">
-                  <Link to="/EditProfile"><li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Edit Profile</li></Link>
-                  <Link to="/mycourse"><li className="px-4 py-2 text-red-400 hover:bg-gray-100 cursor-pointer">My Learning</li></Link>
-                  <li onClick={handleLogout} className="px-4 py-2 text-red-400 hover:bg-gray-100 cursor-pointer">Log Out</li>
+                  <Link to="/EditProfile">
+                    <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                      Edit Profile
+                    </li>
+                  </Link>
+                  <Link to="/mycourse">
+                    <li className="px-4 py-2 text-red-400 hover:bg-gray-100 cursor-pointer">
+                      My Learning
+                    </li>
+                  </Link>
+                  <li
+                    onClick={handleLogout}
+                    className="px-4 py-2 text-red-400 hover:bg-gray-100 cursor-pointer"
+                  >
+                    Log Out
+                  </li>
                   {userData?.user?.role === "instructor" && (
-                    <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">Dashboard</li>
+                    <Link to="/admin/dashboard">
+                      <li className="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                        Dashboard
+                      </li>
+                    </Link>
                   )}
                 </ul>
               </div>
@@ -85,8 +113,12 @@ const NavBar = () => {
           </div>
         ) : (
           <div className="flex space-x-4">
-            <Link to="/auth"><Button variant="ghost">Login</Button></Link>
-            <Link to="/auth"><Button variant="ghost">Signup</Button></Link>
+            <Link to="/auth">
+              <Button variant="ghost">Login</Button>
+            </Link>
+            <Link to="/auth">
+              <Button variant="ghost">Signup</Button>
+            </Link>
           </div>
         )}
 
@@ -100,10 +132,36 @@ const NavBar = () => {
       {menuOpen && (
         <nav className="md:hidden bg-darkBg text-darkText border-t border-gray-700">
           <ul className="flex flex-col space-y-2 p-4">
-            <li><Button variant="ghost" className="w-full text-left" onClick={() => setMenuOpen(false)}>Home</Button></li>
-            <li><Button variant="ghost" className="w-full text-left" onClick={() => setMenuOpen(false)}>Courses</Button></li>
+            <li>
+              <Button
+                variant="ghost"
+                className="w-full text-left"
+                onClick={() => setMenuOpen(false)}
+              >
+                Home
+              </Button>
+            </li>
+            <li>
+              <Button
+                variant="ghost"
+                className="w-full text-left"
+                onClick={() => setMenuOpen(false)}
+              >
+                Courses
+              </Button>
+            </li>
             {userData?.user?.role === "instructor" && (
-              <li><Button variant="ghost" className="w-full text-left" onClick={() => setMenuOpen(false)}>Dashboard</Button></li>
+              <Link to="/admin/dashboard">
+                <li>
+                  <Button
+                    variant="ghost"
+                    className="w-full text-left"
+                    onClick={() => setMenuOpen(false)}
+                  >
+                    Dashboard
+                  </Button>
+                </li>
+              </Link>
             )}
           </ul>
         </nav>
