@@ -10,6 +10,11 @@ import Sidebar from "./Page/Admin/SideBar";
 import AdminDashboard from "./Page/Admin/Dashboard";
 import CreateCourse from "./Page/Admin/CreateCoures";
 import AdminCourses from "./Page/Admin/TeacherCourses";
+import UpdateCourse from "./Page/Admin/UpdateCourse";
+import { UmbrellaOff } from "lucide-react";
+import CreateLecture from "./Page/Admin/Lecture/CreateLecture";
+import LecturePlayer from "./Page/Admin/Lecture/LecturePlayer";
+import CourseLectures from "./Page/Admin/Lecture/Courselecture";
 
 // ✅ Admin Panel Imports
 // import AdminDashboard from "./Page/Admin/AdminDashboard";
@@ -46,6 +51,16 @@ function App() {
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
           <Route path="/admin/courses" element={<AdminCourses />} />
           <Route path="/admin/create-course" element={<CreateCourse />} />
+          <Route
+            path="/admin/updatecourse/:courseId"
+            element={<UpdateCourse />}
+          />
+          <Route
+            path="/admin/createlecture/:courseId"
+            element={<CreateLecture />}
+          />
+          <Route path="/course/:id/lectures" element={<CourseLectures />} />
+          <Route path="/lecture/:id" element={<LecturePlayer />} />
         </Routes>
       </div>
     </div>

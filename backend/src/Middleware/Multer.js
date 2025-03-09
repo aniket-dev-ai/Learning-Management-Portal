@@ -13,9 +13,9 @@ const storage = multer.diskStorage({
   },
 });
 
-// 🛑 File Type Filter (Only Images Allowed)
+// 🛑 File Type Filter (Allow Images & Videos)
 const fileFilter = (req, file, cb) => {
-  const allowedTypes = /jpeg|jpg|png|gif/;
+  const allowedTypes = /jpeg|jpg|png|gif|mp4|mov|avi|mkv/; // ✅ Video formats added
   const extname = allowedTypes.test(
     path.extname(file.originalname).toLowerCase()
   );
@@ -24,7 +24,11 @@ const fileFilter = (req, file, cb) => {
   if (extname && mimetype) {
     cb(null, true);
   } else {
-    cb(new Error("Only images (jpeg, jpg, png, gif) are allowed!"));
+    cb(
+      new Error(
+        "Only images (jpeg, jpg, png, gif) and videos (mp4, mov, avi, mkv) are allowed!"
+      )
+    );
   }
 };
 
@@ -32,7 +36,7 @@ const fileFilter = (req, file, cb) => {
 const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
-  limits: { fileSize: 5 * 1024 * 1024 }, // ✅ Max size: 5MB
+  limits: { fileSize: 100 * 1024 * 1024 }, // 100MB limit
 });
 
 export default upload;

@@ -10,13 +10,13 @@ const courseSchema = new mongoose.Schema(
     },
     subTitle: {
       type: String,
-      required: [true, "Subtitle is required"],
+      //   required: [true, "Subtitle is required"],
       trim: true,
       maxlength: [150, "Subtitle cannot exceed 150 characters"],
     },
     description: {
       type: String,
-      required: [true, "Course description is required"],
+      //   required: [true, "Course description is required"],
       trim: true,
       minlength: [20, "Description must be at least 20 characters long"],
     },
@@ -28,11 +28,11 @@ const courseSchema = new mongoose.Schema(
     courseLevel: {
       type: String,
       enum: ["Beginner", "Intermediate", "Advanced"],
-      required: [true, "Course level is required"],
+      //   required: [true, "Course level is required"],
     },
     coursePrice: {
       type: Number,
-      required: [true, "Course price is required"],
+      //   required: [true, "Course price is required"],
       min: [0, "Course price must be a positive number"],
     },
     enrolledStudents: [
@@ -50,7 +50,7 @@ const courseSchema = new mongoose.Schema(
     creator: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User", // Instructor who created the course
-      required: true,
+      //   required: true,
     },
     isPublished: {
       type: Boolean,

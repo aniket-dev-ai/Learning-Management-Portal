@@ -8,11 +8,11 @@ cloudinary.config({
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
-
-export const uploadmedia = async (filePath) => {
+export const uploadmedia = async (filePath, type = "auto") => {
   try {
     const result = await cloudinary.uploader.upload(filePath, {
       folder: "uploads",
+      resource_type: type, // 🛠️ Detect automatically
     });
     return result;
   } catch (error) {
@@ -20,6 +20,7 @@ export const uploadmedia = async (filePath) => {
     throw new Error("Cloudinary upload failed");
   }
 };
+
 
 export const deleteMedia = async (publicId) => {
   try {

@@ -1,32 +1,35 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "../../components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { useCreateCourseMutation } from "../../feature/api/courseApi";
 
 const CreateCourse = () => {
-  const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("");
+  //   const [courseTitle, setcourseTitle] = useState("");
+  //   const [category, setCategory] = useState("");
   const navigate = useNavigate();
-
+  const [createCourse, { data, isLoading, isSuccess, error }] =
+    useCreateCourseMutation();
+  const [formdata, setformdata] = useState({
+    courseTitle: "",
+    category: "",
+  });
   const handleCreateCourse = async (e) => {
     e.preventDefault();
-    if (!title || !category) return toast.error("All fields are required");
-
-    const res = await fetch("http://localhost:4000/api/courses", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ title, category }),
-    });
-
-    const data = await res.json();
-    if (data.success) {
-      toast.success("Course Created Successfully!");
-      navigate("/admin/courses");
-    } else {
-      toast.error(data.message);
-    }
+    console.log({ formdata });
+    await createCourse(formdata);
   };
 
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success(data.message);
+      navigate("/admin/courses");
+    }
+    if (error) {
+      toast.error(error.data.message);
+    }
+    
+  }, [isSuccess, error]);
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <h1 className="text-2xl font-bold">Create New Course</h1>
@@ -35,13 +38,17 @@ const CreateCourse = () => {
           type="text"
           placeholder="Course Title"
           className="w-full p-3 rounded bg-gray-800 text-white border border-gray-600"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          value={formdata.courseTitle}
+          onChange={(e) =>
+            setformdata({ ...formdata, courseTitle: e.target.value })
+          }
         />
         <select
           className="w-full p-3 rounded bg-gray-800 text-white border border-gray-600"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
+          value={formdata.category}
+          onChange={(e) =>
+            setformdata({ ...formdata, category: e.target.value })
+          }
         >
           <option value="" disabled>
             Select a Category

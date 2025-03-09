@@ -12,7 +12,7 @@ export const verifyToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.userId = decoded.userId;  // Set userId for controllers to use
+    req.userId = decoded.userId;  // Now correctly set userId for controllers
     next();
   } catch (error) {
     return res.status(403).json({
