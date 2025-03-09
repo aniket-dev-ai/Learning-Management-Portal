@@ -136,12 +136,12 @@ export const deleteLecture = async (req, res) => {
     if (!lecture) {
       return res.status(404).json({ success: false, message: "Lecture not found!" });
     }
-    // console.log("Lecture Creator ID:", lecture.creator);
-    // console.log("Request User ID:", req.userId);
-    // console.log("Lecture Creator ID:", lecture.creator.toString());
-    // if (lecture.creator.toString() !== req.userId) {
-    //   return res.status(403).json({ success: false, message: "You are not authorized!" });
-    // }
+    console.log("Lecture Creator ID:", lecture.creator);
+    console.log("Request User ID:", req.userId);
+    console.log("Lecture Creator ID:", lecture.creator.toString());
+    if (lecture.creator.toString() !== req.userId) {
+      return res.status(403).json({ success: false, message: "You are not authorized!" });
+    }
 
     const course = await Course.findById(lecture.course);
     if (course) {
@@ -154,6 +154,47 @@ export const deleteLecture = async (req, res) => {
 
   } catch (error) {
     console.error("Error deleting lecture:", error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
+  }
+};
+ 
+
+export const editLectureById = async (req, res) => {
+  try {
+    const { lectureId } = req.params;
+    const { title, description, videoUrl, duration } = req.body;
+
+    // ✅ Check if Lecture Exists
+    const lecture = await Lecture.findById(lectureId);
+    if (!lecture) {
+      return res.status(404).json({ success: false, message: "Lecture not found!" });
+    }
+
+    console.log("Lecture Creator ID:", lecture.creator);
+    console.log("Request User ID:", req.userId);
+    console.log("Lecture Creator ID:", lecture.creator.toString());
+    
+    // ✅ Authorization Check (Only Creator Can Edit)
+    if (lecture.creator.toString() !== req.userId) {
+      return res.status(403).json({ success: false, message: "You are not authorized to edit this lecture!" });
+    }
+
+    // ✅ Update Lecture Fields
+    if (title) lecture.title = title;
+    if (description) lecture.description = description;
+    if (videoUrl) lecture.videoUrl = videoUrl;
+    if (duration) lecture.duration = duration;
+
+    await lecture.save(); // ✅ Save changes
+
+    res.status(200).json({
+      success: true,
+      message: "Lecture updated successfully!",
+      lecture,
+    });
+
+  } catch (error) {
+    console.error("Error updating lecture:", error);
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };

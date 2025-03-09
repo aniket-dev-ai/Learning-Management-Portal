@@ -15,6 +15,7 @@ import { UmbrellaOff } from "lucide-react";
 import CreateLecture from "./Page/Admin/Lecture/CreateLecture";
 import LecturePlayer from "./Page/Admin/Lecture/LecturePlayer";
 import CourseLectures from "./Page/Admin/Lecture/Courselecture";
+import UpdateLecture from "./Page/Admin/Lecture/UpdateLecture";
 
 // ✅ Admin Panel Imports
 // import AdminDashboard from "./Page/Admin/AdminDashboard";
@@ -61,6 +62,7 @@ function App() {
           />
           <Route path="/course/:id/lectures" element={<CourseLectures />} />
           <Route path="/lecture/:id" element={<LecturePlayer />} />
+          <Route path="/admin/updatelecture/:lectureId" element={<UpdateLecture />} />
         </Routes>
       </div>
     </div>

@@ -63,6 +63,14 @@ const CourseLectures = () => {
                 >
                   🎥 Watch
                 </Link>
+                <Link
+                  to={`/admin/updatelecture/${lecture._id}`}
+                  className="text-pink-400 hover:text-pink-300 transition 
+                    text-center bg-[#3c096c] px-4 py-2 rounded-md font-medium hover:bg-[#e1e1eb] 
+                    hover:text-[#3c096c] transition-colors duration-300"
+                >
+                  🎥 Edit
+                </Link>
 
                 {/* 🗑️ Delete Button */}
                 <button

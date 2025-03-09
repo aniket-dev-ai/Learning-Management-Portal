@@ -33,12 +33,20 @@ export const lectureApi = createApi({
         method: "DELETE",
       }),
     }),
+    updateLecture: builder.mutation({
+      query: ({ lectureId, ...data }) => ({
+        url: `/lecture/${lectureId}`, // ✅ Check this matches your backend route
+        method: "PUT",
+        body: data,
+      }),
+    }),
   }),
 });
 
-export const { 
-  useCreateLectureMutation, 
-  useGetLecturesByCourseIdQuery, 
-  useGetLectureByIdQuery ,
-  useDeleteLectureMutation
+export const {
+  useCreateLectureMutation,
+  useGetLecturesByCourseIdQuery,
+  useGetLectureByIdQuery,
+  useDeleteLectureMutation,
+  useUpdateLectureMutation, // ✅ FIXED NAME
 } = lectureApi;
