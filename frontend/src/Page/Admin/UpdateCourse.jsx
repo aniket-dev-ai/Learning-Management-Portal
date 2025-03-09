@@ -19,6 +19,7 @@ const UpdateCourse = () => {
   const [courseLevel, setCourseLevel] = useState("");
   const [coursePrice, setCoursePrice] = useState("");
   const [isPublished, setIsPublished] = useState(false);
+  const [img, setImg] = useState("");
 
   // API Hooks
   const [updateCourse, { data, isLoading, isSuccess, error }] =
@@ -36,6 +37,7 @@ const UpdateCourse = () => {
       setCourseLevel(courseData.course.courseLevel);
       setCoursePrice(courseData.course.coursePrice);
       setIsPublished(courseData.course.isPublished);
+      setImg(courseData.course.img);
     }
   }, [courseData]);
 
@@ -57,6 +59,7 @@ const UpdateCourse = () => {
         courseLevel,
         coursePrice,
         isPublished,
+        img
       });
     } catch (err) {
       toast.error(err?.data?.message || "Update failed!");
@@ -100,6 +103,19 @@ const UpdateCourse = () => {
           className="w-full p-3 rounded bg-gray-800 text-white border border-gray-600"
           value={subTitle}
           onChange={(e) => setSubTitle(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="coursePrice"
+          className="w-full p-3 rounded bg-gray-800 text-white border border-gray-600"
+          value={coursePrice}
+          onChange={(e) => setCoursePrice(e.target.value)}
+        />
+        <textarea
+          placeholder="imgUrl"
+          className="w-full p-3 rounded bg-gray-800 text-white border border-gray-600"
+          value={img}
+          onChange={(e) => setImg(e.target.value)}
         />
         <textarea
           placeholder="Description"

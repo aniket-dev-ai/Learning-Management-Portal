@@ -52,14 +52,14 @@ const AdminCourses = () => {
               <Link to={`/course/${course._id}/lectures`}>
               <img
                 src={course.img}
-                alt={course.title}
+                alt={course.courseTitle}
                 className="w-full h-40 object-cover"
               />
               </Link>
               <div className="p-4 flex flex-col flex-grow">
                 {/* Course Details */}
                 <h3 className="text-lg font-bold text-darkText">
-                  {course.title}
+                  {course.courseTitle}
                 </h3>
                 <p className="text-sm text-muted-foreground">
                   📚 Category: <span className="font-medium">{course.category}</span>

@@ -39,6 +39,12 @@ export const courseApi = createApi({
         method: "GET",
       }),
     }),
+    getAllCourses: builder.query({
+      query: () => ({
+        url: "/getallCourses",
+        method: "GET",
+      }),
+    }),
   }), // ✅ Fixed missing closing bracket here
 });
 
@@ -46,5 +52,6 @@ export const {
   useCreateCourseMutation,
   useUpdateCourseMutation,
   useGetAllAdminCoursesQuery,
-  useGetCourseDetailsQuery, // ✅ Added new query
+  useGetCourseDetailsQuery, 
+  useGetAllCoursesQuery,
 } = courseApi;

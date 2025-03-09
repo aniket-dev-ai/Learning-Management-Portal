@@ -56,6 +56,11 @@ const courseSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    img: {
+      type: String,
+      default:
+        "https://res.cloudinary.com/dz0x2gq8h/image/upload/v1697511635/Images/course_default_1_wl6v9o.png",
+    },
   },
   { timestamps: true }
 );
