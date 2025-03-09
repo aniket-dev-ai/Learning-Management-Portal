@@ -4,13 +4,13 @@ import User from "../Models/User.Model.js"; // Ye tumhara User Model hai (Mongoo
 // 🛠️ Register Controller
 export const registerUser = async (req, res) => {
   try {
-    const { email, name, password } = req.body;
+    const { email, name, password, role } = req.body;
 
     // Basic Manual Validations
-    if (!name || !email || !password) {
+    if (!name || !email || !password || !role) {
       return res.status(400).json({
         success: false,
-        message: "Name, email, and password are required.",
+        message: "Name, email, role and password are required.",
       });
     }
 
@@ -41,6 +41,7 @@ export const registerUser = async (req, res) => {
       name,
       email,
       password: hashedPassword,
+      role,
     });
 
     await newUser.save();
@@ -49,6 +50,12 @@ export const registerUser = async (req, res) => {
     res.status(201).json({
       success: true,
       message: "Registration successful. Welcome aboard! 🚀",
+      user: {
+        id: newUser._id,
+        name: newUser.name,
+        email: newUser.email,
+        role: newUser.role,
+      },
     });
   } catch (error) {
     console.error("💥 Error in registerUser:", error);
@@ -78,7 +85,7 @@ export const registerUser = async (req, res) => {
   }
 };
 
-import jwt from "jsonwebtoken"; 
+import jwt from "jsonwebtoken";
 
 export const loginUser = async (req, res) => {
   try {
@@ -151,8 +158,8 @@ export const logout = (req, res) => {
     success: true,
     message: "Logout successful! Bye Bye 👋",
   });
-}; 
-import { uploadmedia ,deleteMedia} from "../Middleware/Cloudinary.js";
+};
+import { uploadmedia, deleteMedia } from "../Middleware/Cloudinary.js";
 
 export const editProfile = async (req, res) => {
   try {
@@ -162,7 +169,10 @@ export const editProfile = async (req, res) => {
 
     // ✅ Fetch user
     const user = await User.findById(userId);
-    if (!user) return res.status(404).json({ success: false, message: "User not found!" });
+    if (!user)
+      return res
+        .status(404)
+        .json({ success: false, message: "User not found!" });
 
     if (name) user.name = name;
 
@@ -170,11 +180,11 @@ export const editProfile = async (req, res) => {
 
     if (profileImage) {
       if (user.imageUrl) {
-        const publicId = user.imageUrl.split("/").pop().split(".")[0]; 
-        await deleteMedia(publicId);  
+        const publicId = user.imageUrl.split("/").pop().split(".")[0];
+        await deleteMedia(publicId);
       }
     }
-    console.log(cloudinaryResponse)
+    console.log(cloudinaryResponse);
     cloudinaryResponse = await uploadmedia(profileImage.path);
     user.imageUrl = cloudinaryResponse.secure_url;
 
@@ -194,10 +204,15 @@ export const editProfile = async (req, res) => {
     });
   } catch (error) {
     console.error("Profile Update Error:", error.message);
-    res.status(500).json({ success: false, message: "Failed to update profile 😔", error: error.message });
+    res
+      .status(500)
+      .json({
+        success: false,
+        message: "Failed to update profile 😔",
+        error: error.message,
+      });
   }
 };
-
 
 export const showProfile = async (req, res) => {
   try {

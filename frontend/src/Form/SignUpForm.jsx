@@ -1,9 +1,10 @@
 import { toast } from "sonner";
 import { useRegisterUserMutation } from "../feature/api/authApi";
 import { useEffect, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 
-const SignupForm = (props) => {
-  const { user, setuser } = props;
+const SignupForm = () => {
+  const Navigate = useNavigate();
   const [role, setRole] = useState("student");
 
   const [name, setname] = useState("");
@@ -29,8 +30,8 @@ const SignupForm = (props) => {
       password,
       role,
       name,
-    });
-    setuser(true);
+    }); 
+    Navigate("/");
   };
   useEffect(() => {
     if (registerdata && registernissucces) {
@@ -90,7 +91,7 @@ const SignupForm = (props) => {
             checked={role === "instructor"}
             onChange={() => setRole("instructor")}
           />
-          <span>Instructor</span>
+          <span>instructor</span>
         </label>
       </div>
       <button

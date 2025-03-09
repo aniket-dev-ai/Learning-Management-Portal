@@ -7,11 +7,10 @@ import CoursePage from "./Page/CoursePage";
 import EditProfile from "./Page/EditProfile";
 import MyLearningPage from "./Page/MyLearningPage";
 
-function App() {
-  const [user, setuser] = useState(false);
+function App() { 
   return (
     <div>
-      <NavBar user={user} setuser={setuser} />
+      <NavBar />
       {/* <HeroSection/> */}
       {/* <AuthPage/> */}
       <Routes>
@@ -25,7 +24,7 @@ function App() {
         />
         <Route
           path="/auth"
-          element={<AuthPage user={user} setuser={setuser} />}
+          element={<AuthPage />}
         />
         <Route path="/EditProfile" element={<EditProfile />} />
         <Route path="/mycourse" element={<MyLearningPage />} />
