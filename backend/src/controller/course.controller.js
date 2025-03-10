@@ -120,6 +120,7 @@ export const updateCourse = async (req, res) => {
 export const getcoursedetails = async (req, res) => {
   try {
     const { courseId } = req.params;
+    console.log("Course ID:", courseId);
 
     // Validate courseId
     if (!courseId) {
@@ -134,6 +135,9 @@ export const getcoursedetails = async (req, res) => {
       "creator",
       "name email"
     );
+    console.log("Fetched Course:", course);
+
+    // Check if course exists
 
     if (!course) {
       return res.status(404).json({
@@ -180,3 +184,5 @@ export const getallcourses = async (req, res) => {
     });
   }
 }
+
+ 

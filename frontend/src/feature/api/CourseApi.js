@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
 const COURSE_API = "http://localhost:4000/api/course";
 
 export const courseApi = createApi({
@@ -45,13 +46,29 @@ export const courseApi = createApi({
         method: "GET",
       }),
     }),
-  }), // ✅ Fixed missing closing bracket here
+    generateCourseWithAI: builder.mutation({
+      query: (topic) => ({
+        url: "/ai/generate-course",
+        method: "POST",
+        body: { topic },
+      }),
+    }),
+    generateCourseBuyReasonWithAi: builder.query({
+      query: (courseName) => ({
+        url: "/ai/generate-courseReasontoBuy",
+        method: "POST",
+        body: { courseName },
+      }),
+    }),
+  }),
 });
 
 export const {
   useCreateCourseMutation,
   useUpdateCourseMutation,
   useGetAllAdminCoursesQuery,
-  useGetCourseDetailsQuery, 
+  useGetCourseDetailsQuery,
   useGetAllCoursesQuery,
+  useGenerateCourseWithAIMutation,
+  useGenerateCourseBuyReasonWithAiQuery,
 } = courseApi;

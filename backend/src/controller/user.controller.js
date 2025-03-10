@@ -166,6 +166,11 @@ export const editProfile = async (req, res) => {
     const userId = req.userId; // 🛠️ Extracted from JWT middleware
     const { name } = req.body;
     const profileImage = req.file; // 🛠️ Multer ka file
+    console.log("Profile Image:", profileImage);
+    console.log("User ID:", userId);
+    console.log("Name:", name);
+    console.log("Request Body:", req.body);
+    console.log("Request File:", req.file);
 
     // ✅ Fetch user
     const user = await User.findById(userId);

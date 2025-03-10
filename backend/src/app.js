@@ -3,6 +3,7 @@ import connectDB from "./Database/dataBase.js";
 import userRoutes from "./Routes/User.Route.js";
 import courseRoutes from "./Routes/course.route.js";
 import lectureRoutes from "./Routes/Lecture.route.js";
+import airoutes from "./Routes/Ai.Route.js";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 
@@ -21,6 +22,7 @@ app.use(cookieParser());
 app.use("/api/user", userRoutes);
 app.use("/api/course", courseRoutes);
 app.use("/api/lecture", lectureRoutes);
+app.use("/api/course/ai", airoutes);
 
 // Basic Route
 app.get("/", (req, res) => {

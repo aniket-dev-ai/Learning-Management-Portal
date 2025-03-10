@@ -16,6 +16,9 @@ import CreateLecture from "./Page/Admin/Lecture/CreateLecture";
 import LecturePlayer from "./Page/Admin/Lecture/LecturePlayer";
 import CourseLectures from "./Page/Admin/Lecture/Courselecture";
 import UpdateLecture from "./Page/Admin/Lecture/UpdateLecture";
+import CourseDetail from "./Page/Admin/CourseDetails";
+import Checkout from "./Page/BuyNowPage";
+import RazorpayCheckout from "./Page/Gateway";
 
 // ✅ Admin Panel Imports
 // import AdminDashboard from "./Page/Admin/AdminDashboard";
@@ -63,6 +66,9 @@ function App() {
           <Route path="/course/:id/lectures" element={<CourseLectures />} />
           <Route path="/lecture/:id" element={<LecturePlayer />} />
           <Route path="/admin/updatelecture/:lectureId" element={<UpdateLecture />} />
+          <Route path="/admin/courseDetails/:courseId" element={<CourseDetail />} />
+          <Route path="/admin/course/:courseId/checkout" element={<Checkout />} />
+          <Route path="/RazorpayCheckout/:courseId" element={<RazorpayCheckout />} />
         </Routes>
       </div>
     </div>
