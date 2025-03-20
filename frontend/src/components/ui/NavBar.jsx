@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { useSelector, useDispatch } from "react-redux";
-import { userLoggedOut } from "../../feature/authSlice";
+import { userLoggedOut } from "../../feature/AuthSlice";
 import { Button } from "./button";
 import { Link } from "react-router-dom";
 import {

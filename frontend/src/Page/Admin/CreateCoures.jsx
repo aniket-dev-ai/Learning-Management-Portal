@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { Button } from "../../components/ui/button";
 import { useNavigate } from "react-router-dom";
-import { useCreateCourseMutation } from "../../feature/api/courseApi";
+import { useCreateCourseMutation } from "../../feature/api/CourseApi";
 
 const CreateCourse = () => {
   //   const [courseTitle, setcourseTitle] = useState("");

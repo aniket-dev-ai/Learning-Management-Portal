@@ -6,7 +6,7 @@ import {
   useGetCourseDetailsQuery,
   useUpdateCourseMutation,
   useGenerateCourseWithAIMutation,
-} from "../../feature/api/courseApi";
+} from "../../feature/api/CourseApi";
 
 const UpdateCourse = () => {
   const { courseId } = useParams();

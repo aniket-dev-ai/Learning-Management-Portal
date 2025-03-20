@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "../../components/ui/button";
 import { useEffect, useState } from "react";
-import { useGetAllAdminCoursesQuery } from "../../feature/api/courseApi";
+import { useGetAllAdminCoursesQuery } from "../../feature/api/CourseApi";
 
 const AdminCourses = () => {
   const [Courses, setCourses] = useState([]);
