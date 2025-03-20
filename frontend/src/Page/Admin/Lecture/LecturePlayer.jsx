@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useGetLectureByIdQuery } from "../../../feature/api/lectureApi";
+import { useGetLectureByIdQuery } from "../../../feature/api/LectureApi";
 import { Card, CardContent, CardTitle } from "../../../components/ui/card.jsx";
 
 const LecturePlayer = () => {

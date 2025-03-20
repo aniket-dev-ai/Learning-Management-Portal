@@ -2,7 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import {
   useDeleteLectureMutation,
   useGetLecturesByCourseIdQuery,
-} from "../../../feature/api/lectureApi";
+} from "../../../feature/api/LectureApi";
 import { Card, CardContent, CardTitle, CardDescription } from "../../../components/ui/card.jsx";
 
 const CourseLectures = () => {
