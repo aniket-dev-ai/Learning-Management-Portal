@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import rootReducer from "./rootReducer";
 import { authApi } from "../feature/api/authApi";
-import { userLoggedIn } from "../feature/authSlice"; // ✅ Import Redux action
+import { userLoggedIn } from "../feature/AuthSlice"; // ✅ Import Redux action
 import { courseApi } from "../feature/api/CourseApi";
 import { lectureApi } from "../feature/api/LectureApi";
 
